@@ -1,4 +1,55 @@
-import { backend } from "../../../declarations/backend";
+// Mock backend for testing without deployed canister
+const mockBackend = {
+  start_session: async () => ({ Ok: "Session started" }),
+  get_challenge: async (num: number) => ({
+    Ok: {
+      id: `challenge_${num}`,
+      grid: [
+        [{ color: "R" }, { color: "B" }],
+        [{ color: "B" }, { color: "R" }]
+      ],
+      options: [
+        [[{ color: "B" }, { color: "R" }], [{ color: "R" }, { color: "B" }]], // Correct
+        [[{ color: "R" }, { color: "R" }], [{ color: "B" }, { color: "B" }]],
+        [[{ color: "G" }, { color: "B" }], [{ color: "B" }, { color: "G" }]],
+        [[{ color: "R" }, { color: "G" }], [{ color: "G" }, { color: "R" }]]
+      ],
+      correct_answer: 0,
+      challenge_type: "rotation"
+    }
+  }),
+  verify_answer: async (id: string, answer: number) => ({ Ok: answer === 0 }),
+  mint_proof: async () => ({ Ok: "NFT minted successfully" }),
+  check_humanity_status: async () => ({ Err: "No token found" }),
+  create_post: async (title: string, content: string) => {
+    if (!localStorage.getItem('humanityToken')) {
+      return { Err: "CHALLENGE_REQUIRED" };
+    }
+    return { Ok: `post_${Date.now()}` };
+  },
+  get_all_posts: async () => [
+    {
+      id: "post_1",
+      title: "Welcome to the Living Internet Protocol Forum",
+      content: "This is a demo post showing the forum functionality.",
+      author: "0x123...abc",
+      created_at: BigInt(Date.now() - 3600000),
+      author_verified: true
+    }
+  ],
+  refresh_token: async () => {
+    localStorage.setItem('humanityToken', JSON.stringify({
+      principal: "test_user",
+      verified_at: Date.now(),
+      expires_at: Date.now() + 24 * 60 * 60 * 1000
+    }));
+    return { Ok: "Token refreshed" };
+  }
+};
+
+const backend = mockBackend;
+// Uncomment when backend is deployed:
+// import { backend } from "../../../declarations/backend";
 
 // Type definitions for LIP
 export interface GridCell {
