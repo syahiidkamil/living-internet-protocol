@@ -1,21 +1,45 @@
-type AssistantMessage = record {
-  content : opt text;
-  tool_calls : vec ToolCall;
+type GridCell = record {
+  color : text;
 };
-type ChatMessage = variant {
-  tool : record { content : text; tool_call_id : text };
-  user : record { content : text };
-  assistant : AssistantMessage;
-  system : record { content : text };
+
+type Challenge = record {
+  id : text;
+  grid : vec vec GridCell;
+  options : vec vec vec GridCell;
+  correct_answer : nat8;
+  challenge_type : text;
 };
-type FunctionCall = record { name : text; arguments : vec ToolCallArgument };
-type ToolCall = record { id : text; function : FunctionCall };
-type ToolCallArgument = record { value : text; name : text };
+
+type UserSession = record {
+  principal : text;
+  challenges_completed : nat8;
+  current_challenge : opt Challenge;
+  started_at : nat64;
+  completed_at : opt nat64;
+};
+
+type Post = record {
+  id : text;
+  title : text;
+  content : text;
+  author : text;
+  created_at : nat64;
+  author_verified : bool;
+};
+
+type HumanityToken = record {
+  principal : text;
+  verified_at : nat64;
+  expires_at : nat64;
+};
+
 service : {
-  chat : (vec ChatMessage) -> (text);
-  get_count : () -> (nat64) query;
-  greet : (text) -> (text) query;
-  increment : () -> (nat64);
-  prompt : (text) -> (text);
-  set_count : (nat64) -> (nat64);
+  get_challenge : (nat8) -> (variant { Ok : Challenge; Err : text });
+  verify_answer : (text, nat8) -> (variant { Ok : bool; Err : text });
+  start_session : () -> (variant { Ok : text; Err : text });
+  mint_proof : () -> (variant { Ok : text; Err : text });
+  check_humanity_status : () -> (variant { Ok : HumanityToken; Err : text }) query;
+  create_post : (text, text) -> (variant { Ok : text; Err : text });
+  get_all_posts : () -> (vec Post) query;
+  refresh_token : () -> (variant { Ok : text; Err : text });
 }
