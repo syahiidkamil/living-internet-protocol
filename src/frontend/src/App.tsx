@@ -1,101 +1,55 @@
-import { useState, useEffect } from "react";
-import { HumanVerificationView, ARCVerificationView, ForumView } from "./views";
-import { backendService } from "./services/backendService";
+import { useState } from "react";
+import { LuckyCaptchaPlayground } from "./pages/LuckyCaptchaPlayground";
+import { SimpleForum } from "./pages/SimpleForum";
+import lipLogo from "../assets/living_internet_protocol.webp";
 
-type ViewType = "verification" | "arc_verification" | "forum";
+type ViewType = "playground" | "forum";
 
 function App() {
-  const [view, setView] = useState<ViewType>("arc_verification");
-  const [hasToken, setHasToken] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
-
-  useEffect(() => {
-    checkUserStatus();
-  }, []);
-
-  const checkUserStatus = async () => {
-    setIsChecking(true);
-    try {
-      const result = await backendService.check_humanity_status();
-      if ("Ok" in result) {
-        const now = Date.now() * 1_000_000; // Convert to nanoseconds
-        if (Number(result.Ok.expires_at) > now) {
-          setHasToken(true);
-          setView("forum");
-        }
-      }
-    } catch (error) {
-      console.log("No valid token found");
-    }
-    setIsChecking(false);
-  };
-
-  if (isChecking) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-900 text-white">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-white"></div>
-          <p>Loading...</p>
-        </div>
-      </div>
-    );
-  }
+  const [view, setView] = useState<ViewType>("playground");
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="border-b border-gray-700 bg-gray-800 p-4">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <h1 className="text-xl font-bold">Living Internet Protocol</h1>
+      <nav className="border-b border-gray-700/50 bg-gray-900/95 backdrop-blur-sm p-4 sticky top-0 z-40">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src={lipLogo} alt="LIP Logo" className="w-8 h-8 rounded-lg" />
+            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              Living Internet Protocol
+            </h1>
+            <div className="hidden sm:block rounded-full bg-gradient-to-r from-blue-900/40 to-cyan-900/40 border border-cyan-500/30 px-3 py-1 text-xs text-white font-semibold">
+              MVP Demo
+            </div>
+          </div>
           <div className="flex gap-2">
             <button
-              onClick={() => setView("verification")}
-              className={`rounded-lg px-3 py-2 text-sm transition-colors ${
-                view === "verification"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+              onClick={() => setView("playground")}
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+                view === "playground"
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/25"
+                  : "bg-gray-700/50 text-gray-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-cyan-600/20 hover:text-white"
               }`}
             >
-              Old Verification
-            </button>
-            <button
-              onClick={() => setView("arc_verification")}
-              className={`rounded-lg px-3 py-2 text-sm transition-colors ${
-                view === "arc_verification"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-              }`}
-            >
-              ARC Verification
+              🎰 Lucky Captcha
             </button>
             <button
               onClick={() => setView("forum")}
-              className={`rounded-lg px-3 py-2 text-sm transition-colors ${
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
                 view === "forum"
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/25"
+                  : "bg-gray-700/50 text-gray-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-cyan-600/20 hover:text-white"
               }`}
             >
-              Forum
+              🏛️ Forum
             </button>
           </div>
         </div>
       </nav>
 
       {/* Main Content */}
-      {view === "verification" && (
-        <div className="flex min-h-[calc(100vh-73px)] items-center justify-center">
-          <HumanVerificationView />
-        </div>
-      )}
-      {view === "arc_verification" && (
-        <div className="min-h-[calc(100vh-73px)]">
-          <ARCVerificationView />
-        </div>
-      )}
-      {view === "forum" && (
-        <ForumView />
-      )}
+      {view === "playground" && <LuckyCaptchaPlayground />}
+      {view === "forum" && <SimpleForum />}
     </div>
   );
 }

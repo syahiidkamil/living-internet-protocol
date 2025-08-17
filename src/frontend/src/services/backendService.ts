@@ -8,52 +8,142 @@ const mockBackend = {
         id: `arc_challenge_${num}`,
         examples: [
           {
-            input: { cells: [['pink', 'black'], ['black', 'yellow']] },
-            output: { cells: [['yellow', 'black'], ['black', 'pink']] }
+            input: {
+              cells: [
+                ["pink", "black"],
+                ["black", "yellow"],
+              ],
+            },
+            output: {
+              cells: [
+                ["yellow", "black"],
+                ["black", "pink"],
+              ],
+            },
           },
           {
-            input: { cells: [['yellow', 'pink'], ['black', 'black']] },
-            output: { cells: [['black', 'black'], ['yellow', 'pink']] }
-          }
+            input: {
+              cells: [
+                ["yellow", "pink"],
+                ["black", "black"],
+              ],
+            },
+            output: {
+              cells: [
+                ["black", "black"],
+                ["yellow", "pink"],
+              ],
+            },
+          },
         ],
-        testInput: { cells: [['black', 'pink'], ['pink', 'black']] },
-        solution: { cells: [['pink', 'black'], ['black', 'pink']] },
-        patternType: "diagonal_flip"
+        testInput: {
+          cells: [
+            ["black", "pink"],
+            ["pink", "black"],
+          ],
+        },
+        solution: {
+          cells: [
+            ["pink", "black"],
+            ["black", "pink"],
+          ],
+        },
+        patternType: "diagonal_flip",
       },
       {
         id: `arc_challenge_${num}`,
         examples: [
           {
-            input: { cells: [['pink', 'yellow'], ['yellow', 'pink']] },
-            output: { cells: [['yellow', 'pink'], ['pink', 'yellow']] }
+            input: {
+              cells: [
+                ["pink", "yellow"],
+                ["yellow", "pink"],
+              ],
+            },
+            output: {
+              cells: [
+                ["yellow", "pink"],
+                ["pink", "yellow"],
+              ],
+            },
           },
           {
-            input: { cells: [['black', 'pink'], ['pink', 'black']] },
-            output: { cells: [['pink', 'black'], ['black', 'pink']] }
-          }
+            input: {
+              cells: [
+                ["black", "pink"],
+                ["pink", "black"],
+              ],
+            },
+            output: {
+              cells: [
+                ["pink", "black"],
+                ["black", "pink"],
+              ],
+            },
+          },
         ],
-        testInput: { cells: [['yellow', 'black'], ['pink', 'yellow']] },
-        solution: { cells: [['black', 'yellow'], ['yellow', 'pink']] },
-        patternType: "color_swap"
+        testInput: {
+          cells: [
+            ["yellow", "black"],
+            ["pink", "yellow"],
+          ],
+        },
+        solution: {
+          cells: [
+            ["black", "yellow"],
+            ["yellow", "pink"],
+          ],
+        },
+        patternType: "color_swap",
       },
       {
         id: `arc_challenge_${num}`,
         examples: [
           {
-            input: { cells: [['pink', 'black'], ['yellow', 'pink']] },
-            output: { cells: [['yellow', 'pink'], ['black', 'pink']] }
+            input: {
+              cells: [
+                ["pink", "black"],
+                ["yellow", "pink"],
+              ],
+            },
+            output: {
+              cells: [
+                ["yellow", "pink"],
+                ["black", "pink"],
+              ],
+            },
           },
           {
-            input: { cells: [['yellow', 'pink'], ['black', 'yellow']] },
-            output: { cells: [['black', 'yellow'], ['pink', 'yellow']] }
-          }
+            input: {
+              cells: [
+                ["yellow", "pink"],
+                ["black", "yellow"],
+              ],
+            },
+            output: {
+              cells: [
+                ["black", "yellow"],
+                ["pink", "yellow"],
+              ],
+            },
+          },
         ],
-        testInput: { cells: [['black', 'yellow'], ['pink', 'black']] },
-        solution: { cells: [['pink', 'black'], ['yellow', 'black']] },
-        patternType: "rotate_90"
-      }
+        testInput: {
+          cells: [
+            ["black", "yellow"],
+            ["pink", "black"],
+          ],
+        },
+        solution: {
+          cells: [
+            ["pink", "black"],
+            ["yellow", "black"],
+          ],
+        },
+        patternType: "rotate_90",
+      },
     ];
-    
+
     return { Ok: challenges[(num - 1) % challenges.length] };
   },
   get_challenge: async (num: number) => ({
@@ -242,7 +332,9 @@ export const backendService = {
    * @param challenge_number Challenge number
    * @returns Promise with ARC challenge data
    */
-  async get_arc_challenge(challenge_number: number): Promise<Result<any, string>> {
+  async get_arc_challenge(
+    challenge_number: number,
+  ): Promise<Result<any, string>> {
     return await backend.get_arc_challenge(challenge_number);
   },
 
@@ -252,7 +344,10 @@ export const backendService = {
    * @param user_grid User's grid solution
    * @returns Promise with verification result
    */
-  async verify_arc_answer(challenge_id: string, user_grid: any): Promise<Result<boolean, string>> {
+  async verify_arc_answer(
+    challenge_id: string,
+    user_grid: any,
+  ): Promise<Result<boolean, string>> {
     return await backend.verify_arc_answer(challenge_id, user_grid);
   },
 };

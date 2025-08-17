@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { ARCGrid, Grid2x2, CellColor, cycleColor, createEmptyGrid, gridsEqual } from './ARCGrid';
+import React, { useState } from "react";
+import {
+  ARCGrid,
+  Grid2x2,
+  CellColor,
+  cycleColor,
+  createEmptyGrid,
+  gridsEqual,
+} from "../common/ARCGrid";
 
 export interface ARCChallengeData {
   id: string;
@@ -21,7 +28,7 @@ interface ARCChallengeProps {
 export const ARCChallenge: React.FC<ARCChallengeProps> = ({
   challenge,
   onSolved,
-  onReset
+  onReset,
 }) => {
   const [userGrid, setUserGrid] = useState<Grid2x2>(createEmptyGrid());
   const [showResult, setShowResult] = useState(false);
@@ -34,11 +41,9 @@ export const ARCChallenge: React.FC<ARCChallengeProps> = ({
     const newGrid: Grid2x2 = {
       cells: userGrid.cells.map((gridRow, rowIndex) =>
         gridRow.map((cell, colIndex) =>
-          rowIndex === row && colIndex === col 
-            ? cycleColor(cell)
-            : cell
-        )
-      )
+          rowIndex === row && colIndex === col ? cycleColor(cell) : cell,
+        ),
+      ),
     };
 
     setUserGrid(newGrid);
@@ -48,7 +53,7 @@ export const ARCChallenge: React.FC<ARCChallengeProps> = ({
     const correct = gridsEqual(userGrid, challenge.solution);
     setIsCorrect(correct);
     setShowResult(true);
-    setAttempts(prev => prev + 1);
+    setAttempts((prev) => prev + 1);
     onSolved(correct);
   };
 
@@ -61,18 +66,18 @@ export const ARCChallenge: React.FC<ARCChallengeProps> = ({
     }
   };
 
-  const hasUserInput = userGrid.cells.some(row => 
-    row.some(cell => cell !== 'black')
+  const hasUserInput = userGrid.cells.some((row) =>
+    row.some((cell) => cell !== "black"),
   );
 
   return (
-    <div className="space-y-8 p-6 bg-gray-800 rounded-lg">
+    <div className="space-y-8 rounded-lg bg-gray-800 p-6">
       {/* Instructions */}
       <div className="text-center">
-        <h3 className="text-xl font-bold text-white mb-2">
+        <h3 className="mb-2 text-xl font-bold text-white">
           Pattern Recognition Challenge
         </h3>
-        <p className="text-gray-300 text-sm">
+        <p className="text-sm text-gray-300">
           Study the examples, then create the correct output pattern.
           <br />
           Click cells to cycle: Black → Pink → Yellow → Black
@@ -81,29 +86,27 @@ export const ARCChallenge: React.FC<ARCChallengeProps> = ({
 
       {/* Examples */}
       <div className="space-y-4">
-        <h4 className="text-lg font-semibold text-white text-center">Examples:</h4>
-        
+        <h4 className="text-center text-lg font-semibold text-white">
+          Examples:
+        </h4>
+
         <div className="flex flex-wrap justify-center gap-8">
           {challenge.examples.map((example, index) => (
             <div key={index} className="flex items-center space-x-4">
               <div className="text-center">
-                <div className="text-sm text-gray-400 mb-2">Input {index + 1}</div>
-                <ARCGrid 
-                  grid={example.input} 
-                  readonly 
-                  size="small"
-                />
+                <div className="mb-2 text-sm text-gray-400">
+                  Input {index + 1}
+                </div>
+                <ARCGrid grid={example.input} readonly size="small" />
               </div>
-              
+
               <div className="text-2xl text-gray-400">→</div>
-              
+
               <div className="text-center">
-                <div className="text-sm text-gray-400 mb-2">Output {index + 1}</div>
-                <ARCGrid 
-                  grid={example.output} 
-                  readonly 
-                  size="small"
-                />
+                <div className="mb-2 text-sm text-gray-400">
+                  Output {index + 1}
+                </div>
+                <ARCGrid grid={example.output} readonly size="small" />
               </div>
             </div>
           ))}
@@ -112,27 +115,31 @@ export const ARCChallenge: React.FC<ARCChallengeProps> = ({
 
       {/* Challenge */}
       <div className="border-t border-gray-600 pt-6">
-        <h4 className="text-lg font-semibold text-white text-center mb-4">Your Turn:</h4>
-        
+        <h4 className="mb-4 text-center text-lg font-semibold text-white">
+          Your Turn:
+        </h4>
+
         <div className="flex items-center justify-center space-x-6">
           <div className="text-center">
-            <div className="text-sm text-gray-400 mb-2">Input</div>
-            <ARCGrid 
-              grid={challenge.testInput} 
-              readonly 
-              size="medium"
-            />
+            <div className="mb-2 text-sm text-gray-400">Input</div>
+            <ARCGrid grid={challenge.testInput} readonly size="medium" />
           </div>
-          
+
           <div className="text-3xl text-gray-400">→</div>
-          
+
           <div className="text-center">
-            <div className="text-sm text-gray-400 mb-2">Your Output</div>
-            <ARCGrid 
-              grid={userGrid} 
+            <div className="mb-2 text-sm text-gray-400">Your Output</div>
+            <ARCGrid
+              grid={userGrid}
               onCellClick={handleCellClick}
               size="medium"
-              className={showResult ? (isCorrect ? 'ring-2 ring-green-500' : 'ring-2 ring-red-500') : ''}
+              className={
+                showResult
+                  ? isCorrect
+                    ? "ring-2 ring-green-500"
+                    : "ring-2 ring-red-500"
+                  : ""
+              }
             />
           </div>
         </div>
@@ -142,16 +149,15 @@ export const ARCChallenge: React.FC<ARCChallengeProps> = ({
       <div className="flex justify-center space-x-4">
         <button
           onClick={handleReset}
-          className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-500 transition-colors"
+          className="rounded bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-500"
         >
           Reset
         </button>
-        
+
         <button
           onClick={handleSubmit}
           disabled={!hasUserInput || showResult}
-          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-500 
-                     disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
+          className="rounded bg-blue-600 px-6 py-2 text-white transition-colors hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-gray-600"
         >
           Submit Answer
         </button>
@@ -159,35 +165,40 @@ export const ARCChallenge: React.FC<ARCChallengeProps> = ({
 
       {/* Result */}
       {showResult && (
-        <div className={`text-center p-4 rounded-lg ${
-          isCorrect 
-            ? 'bg-green-900/50 text-green-300' 
-            : 'bg-red-900/50 text-red-300'
-        }`}>
+        <div
+          className={`rounded-lg p-4 text-center ${
+            isCorrect
+              ? "bg-green-900/50 text-green-300"
+              : "bg-red-900/50 text-red-300"
+          }`}
+        >
           <div className="text-lg font-semibold">
-            {isCorrect ? '✓ Correct!' : '✗ Incorrect'}
+            {isCorrect ? "✓ Correct!" : "✗ Incorrect"}
           </div>
           {!isCorrect && attempts < 3 && (
-            <div className="text-sm mt-2">
+            <div className="mt-2 text-sm">
               Try again! Look carefully at how the examples transform.
             </div>
           )}
           {attempts >= 3 && !isCorrect && (
-            <div className="text-sm mt-2">
-              This challenge requires understanding the pattern. Study the examples more closely.
+            <div className="mt-2 text-sm">
+              This challenge requires understanding the pattern. Study the
+              examples more closely.
             </div>
           )}
         </div>
       )}
 
       {/* Debug info (only in development) */}
-      {process.env.NODE_ENV === 'development' && (
+      {process.env.NODE_ENV === "development" && (
         <details className="text-xs text-gray-500">
           <summary>Debug Info</summary>
           <div className="mt-2">
             <div>Pattern Type: {challenge.patternType}</div>
             <div>Attempts: {attempts}</div>
-            <div>Expected Solution: {JSON.stringify(challenge.solution.cells)}</div>
+            <div>
+              Expected Solution: {JSON.stringify(challenge.solution.cells)}
+            </div>
             <div>User Input: {JSON.stringify(userGrid.cells)}</div>
           </div>
         </details>
