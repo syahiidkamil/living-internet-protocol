@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { ARCChallenge, ARCChallengeData } from "../captcha/ARCChallenge";
-import { Grid2x2, createEmptyGrid } from "../common/ARCGrid";
+import { ForumCaptchaSelector } from "./ForumCaptchaSelector";
 
 interface CaptchaGatedPostProps {
   onSubmit: (title: string, content: string) => void;
@@ -14,41 +13,7 @@ export const CaptchaGatedPost: React.FC<CaptchaGatedPostProps> = ({
   const [step, setStep] = useState<"form" | "captcha" | "success">("form");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [captchaCompleted, setCaptchaCompleted] = useState(false);
-
-  // Simple demo challenge for the forum
-  const demoChallenge: ARCChallengeData = {
-    id: "forum-demo",
-    patternType: "copy_pattern",
-    examples: [
-      {
-        input: {
-          cells: [
-            ["pink", "black"],
-            ["black", "yellow"],
-          ],
-        },
-        output: {
-          cells: [
-            ["pink", "black"],
-            ["black", "yellow"],
-          ],
-        },
-      },
-    ],
-    testInput: {
-      cells: [
-        ["yellow", "black"],
-        ["black", "pink"],
-      ],
-    },
-    solution: {
-      cells: [
-        ["yellow", "black"],
-        ["black", "pink"],
-      ],
-    },
-  };
+  const [, setCaptchaCompleted] = useState(false);
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,15 +22,13 @@ export const CaptchaGatedPost: React.FC<CaptchaGatedPostProps> = ({
     }
   };
 
-  const handleCaptchaComplete = (success: boolean) => {
-    if (success) {
-      setCaptchaCompleted(true);
-      setStep("success");
-      // Auto-submit after brief delay
-      setTimeout(() => {
-        onSubmit(title, content);
-      }, 2000);
-    }
+  const handleCaptchaComplete = () => {
+    setCaptchaCompleted(true);
+    setStep("success");
+    // Auto-submit after brief delay
+    setTimeout(() => {
+      onSubmit(title, content);
+    }, 2000);
   };
 
   const renderForm = () => (
@@ -117,9 +80,9 @@ export const CaptchaGatedPost: React.FC<CaptchaGatedPostProps> = ({
           </button>
           <button
             type="submit"
-            className="rounded-lg bg-blue-600 px-6 py-2 text-white transition-colors hover:bg-blue-700"
+            className="rounded-lg bg-gradient-to-r from-blue-600 to-teal-600 px-6 py-2 text-white transition-all hover:scale-105 hover:from-blue-700 hover:to-teal-700"
           >
-            Next: Verify Human →
+            🎰 Post with Lucky Captcha →
           </button>
         </div>
       </form>
@@ -129,20 +92,13 @@ export const CaptchaGatedPost: React.FC<CaptchaGatedPostProps> = ({
   const renderCaptcha = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="mb-2 text-xl font-bold text-white">
-          Human Verification Required
+        <h2 className="mb-2 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-xl font-bold text-transparent">
+          🎰 Lucky Captcha Challenge
         </h2>
         <p className="text-sm text-gray-400">
-          Complete this quick challenge to prove you're human and post to the
-          forum.
+          Your verification challenge is being selected randomly! Complete it to
+          post your message.
         </p>
-      </div>
-
-      <div className="rounded-lg bg-gray-800/50 p-6">
-        <ARCChallenge
-          challenge={demoChallenge}
-          onSolved={handleCaptchaComplete}
-        />
       </div>
 
       <div className="text-center">
@@ -171,11 +127,11 @@ export const CaptchaGatedPost: React.FC<CaptchaGatedPostProps> = ({
 
       <div className="rounded-lg border border-green-500/30 bg-green-900/20 p-4">
         <div className="mb-2 text-sm text-green-300">
-          🎉 Demo Bonus: In production, you might have won a Lucky Captcha
-          prize!
+          🎉 Lucky Captcha Complete!
         </div>
         <div className="text-xs text-gray-400">
-          Some captchas offer $1000 lucky prizes while verifying humanity
+          You successfully completed your randomly selected verification
+          challenge
         </div>
       </div>
 
@@ -193,10 +149,10 @@ export const CaptchaGatedPost: React.FC<CaptchaGatedPostProps> = ({
           <div className="border-b border-gray-700 p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="text-2xl">🛡️</div>
+                <div className="text-2xl">🎰</div>
                 <div>
                   <h1 className="font-semibold text-white">
-                    Captcha-Gated Posting
+                    Lucky Captcha Posting
                   </h1>
                   <div className="text-sm text-gray-400">
                     Step{" "}
@@ -236,6 +192,13 @@ export const CaptchaGatedPost: React.FC<CaptchaGatedPostProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Lucky Captcha Selector Modal */}
+      <ForumCaptchaSelector
+        isOpen={step === "captcha"}
+        onSuccess={handleCaptchaComplete}
+        onClose={() => setStep("form")}
+      />
     </div>
   );
 };
