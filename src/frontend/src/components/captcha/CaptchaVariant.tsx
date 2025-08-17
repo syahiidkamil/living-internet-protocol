@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ARCChallengeModal } from "./ARCChallengeModal";
 
 interface VariantData {
   id: string;
@@ -21,6 +22,7 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
   winRate,
 }) => {
   const [isCompleting, setIsCompleting] = useState(false);
+  const [showARCChallenge, setShowARCChallenge] = useState(false);
 
   const difficultyColors = {
     Easy: "text-green-400 bg-green-900/20",
@@ -30,16 +32,30 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
   };
 
   const handleTryChallenge = async () => {
+    // For ARC-AGI challenge, open the interactive modal
+    if (variant.id === "arc-agi") {
+      setShowARCChallenge(true);
+      return;
+    }
+
+    // For other challenges, simulate completion
     setIsCompleting(true);
-
-    // Simulate challenge completion
     await new Promise((resolve) => setTimeout(resolve, 2000));
-
+    
     // Demo mode: always win for demonstration
     const success = true; // In production: Math.random() * 100 < winRate
-
+    
     setIsCompleting(false);
     onComplete(success);
+  };
+
+  const handleARCSuccess = () => {
+    setShowARCChallenge(false);
+    onComplete(true);
+  };
+
+  const handleARCClose = () => {
+    setShowARCChallenge(false);
   };
 
   const getVariantIcon = (id: string) => {
@@ -151,6 +167,13 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
 
       {/* Hover Glow Effect */}
       <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-cyan-500/0 to-teal-500/0 opacity-0 transition-opacity group-hover:opacity-20 pointer-events-none" />
+      
+      {/* ARC Challenge Modal */}
+      <ARCChallengeModal
+        isOpen={showARCChallenge}
+        onSuccess={handleARCSuccess}
+        onClose={handleARCClose}
+      />
     </div>
   );
 };
