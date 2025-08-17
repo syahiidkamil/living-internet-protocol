@@ -8,3 +8,5 @@ export * from "./TextArea";
 export * from "./CreatePostModal";
 export * from "./PostCard";
 export * from "./TokenStatusBadge";
+export * from "./ARCGrid";
+export * from "./ARCChallenge";

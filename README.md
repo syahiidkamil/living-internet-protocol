@@ -31,27 +31,32 @@ Living Internet Protocol (LIP) is a decentralized human verification system buil
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/syahiidkamil/living-internet-protocol.git
 cd living-internet-protocol
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start local Internet Computer replica:
+
 ```bash
 dfx start --clean
 ```
 
 4. Deploy canisters:
+
 ```bash
 dfx deploy
 ```
 
 5. Start frontend development server:
+
 ```bash
 npm start
 ```
@@ -61,6 +66,7 @@ npm start
 ### 1. Human Verification Flow
 
 Users complete 3 pattern-based challenges:
+
 - **Rotation Challenge**: Identify 90° rotation patterns
 - **Color Sequence**: Recognize color progressions
 - **Transformation**: Apply abstract transformations
@@ -68,6 +74,7 @@ Users complete 3 pattern-based challenges:
 ### 2. NFT Minting
 
 Upon successful completion:
+
 - Proof-of-humanity NFT is minted
 - 24-hour humanity token is issued
 - Access to verified-only features
@@ -75,6 +82,7 @@ Upon successful completion:
 ### 3. Forum Demonstration
 
 The POC forum showcases real-world usage:
+
 - Only verified humans can create posts
 - Tokens expire after 24 hours
 - Re-verification requires only 1 challenge
@@ -99,16 +107,19 @@ living-internet-protocol/
 ## Testing
 
 Run the test suite:
+
 ```bash
 npm test
 ```
 
 Backend tests:
+
 ```bash
 npm run test:backend
 ```
 
 Frontend tests:
+
 ```bash
 npm run test:frontend
 ```

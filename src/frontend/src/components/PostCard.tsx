@@ -1,5 +1,5 @@
-import React from 'react';
-import { Post } from '../services/backendService';
+import React from "react";
+import { Post } from "../services/backendService";
 
 interface Props {
   post: Post;
@@ -19,14 +19,16 @@ export const PostCard: React.FC<Props> = ({ post }) => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors">
-      <div className="flex items-start justify-between mb-4">
+    <div className="hover:bg-gray-750 rounded-lg bg-gray-800 p-6 transition-colors">
+      <div className="mb-4 flex items-start justify-between">
         <div className="flex-1">
-          <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+          <h3 className="mb-2 text-xl font-semibold">{post.title}</h3>
           <div className="flex items-center gap-4 text-sm text-gray-400">
             <span className="flex items-center gap-1">
               {post.author_verified && (
-                <span className="text-green-500" title="Verified Human">✓</span>
+                <span className="text-green-500" title="Verified Human">
+                  ✓
+                </span>
               )}
               <span title={post.author}>{truncateAuthor(post.author)}</span>
             </span>
@@ -35,19 +37,19 @@ export const PostCard: React.FC<Props> = ({ post }) => {
           </div>
         </div>
       </div>
-      
-      <div className="text-gray-300 whitespace-pre-wrap break-words">
+
+      <div className="break-words whitespace-pre-wrap text-gray-300">
         {post.content}
       </div>
-      
-      <div className="mt-4 pt-4 border-t border-gray-700 flex items-center gap-4">
-        <button className="text-gray-400 hover:text-white transition-colors text-sm">
+
+      <div className="mt-4 flex items-center gap-4 border-t border-gray-700 pt-4">
+        <button className="text-sm text-gray-400 transition-colors hover:text-white">
           <span className="mr-1">💬</span> Reply
         </button>
-        <button className="text-gray-400 hover:text-white transition-colors text-sm">
+        <button className="text-sm text-gray-400 transition-colors hover:text-white">
           <span className="mr-1">⬆️</span> Upvote
         </button>
-        <button className="text-gray-400 hover:text-white transition-colors text-sm">
+        <button className="text-sm text-gray-400 transition-colors hover:text-white">
           <span className="mr-1">🔗</span> Share
         </button>
       </div>

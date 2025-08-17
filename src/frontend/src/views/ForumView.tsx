@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { backendService, Post, HumanityToken } from '../services/backendService';
-import { CreatePostModal } from '../components/CreatePostModal';
-import { PostCard } from '../components/PostCard';
-import { TokenStatusBadge } from '../components/TokenStatusBadge';
-import { HumanVerificationView } from './HumanVerificationView';
-import { Loader } from '../components';
+import React, { useState, useEffect } from "react";
+import {
+  backendService,
+  Post,
+  HumanityToken,
+} from "../services/backendService";
+import { CreatePostModal } from "../components/CreatePostModal";
+import { PostCard } from "../components/PostCard";
+import { TokenStatusBadge } from "../components/TokenStatusBadge";
+import { HumanVerificationView } from "./HumanVerificationView";
+import { Loader } from "../components";
 
 export const ForumView: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -24,8 +28,8 @@ export const ForumView: React.FC = () => {
       const allPosts = await backendService.get_all_posts();
       setPosts(allPosts);
     } catch (error) {
-      console.error('Failed to load posts:', error);
-      setError('Failed to load posts');
+      console.error("Failed to load posts:", error);
+      setError("Failed to load posts");
     }
   };
 
@@ -33,7 +37,7 @@ export const ForumView: React.FC = () => {
     setIsLoading(true);
     try {
       const result = await backendService.check_humanity_status();
-      if ('Ok' in result) {
+      if ("Ok" in result) {
         setTokenStatus(result.Ok);
       } else {
         setTokenStatus(null);
@@ -47,13 +51,13 @@ export const ForumView: React.FC = () => {
   const handleCreatePost = async (title: string, content: string) => {
     try {
       const result = await backendService.create_post(title, content);
-      if ('Err' in result && result.Err === 'CHALLENGE_REQUIRED') {
+      if ("Err" in result && result.Err === "CHALLENGE_REQUIRED") {
         setShowCreateModal(false);
         setShowChallenge(true);
-      } else if ('Ok' in result) {
+      } else if ("Ok" in result) {
         await loadPosts();
         setShowCreateModal(false);
-      } else if ('Err' in result) {
+      } else if ("Err" in result) {
         alert(`Error: ${result.Err}`);
       }
     } catch (error: any) {
@@ -68,7 +72,7 @@ export const ForumView: React.FC = () => {
       setShowCreateModal(true);
     } else {
       // Logout on failure
-      window.location.href = '/';
+      window.location.href = "/";
     }
   };
 
@@ -80,14 +84,14 @@ export const ForumView: React.FC = () => {
 
   return (
     <div className="min-h-[calc(100vh-73px)]">
-      <div className="bg-gray-800 border-b border-gray-700 p-4">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
+      <div className="border-b border-gray-700 bg-gray-800 p-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
           <h2 className="text-xl font-semibold">Verified Humans Forum</h2>
           <div className="flex items-center gap-4">
             <TokenStatusBadge token={tokenStatus} />
             <button
               onClick={() => setShowCreateModal(true)}
-              className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors"
+              className="rounded-lg bg-blue-600 px-4 py-2 transition-colors hover:bg-blue-700"
             >
               Create Post
             </button>
@@ -95,20 +99,22 @@ export const ForumView: React.FC = () => {
         </div>
       </div>
 
-      <main className="max-w-6xl mx-auto p-6">
+      <main className="mx-auto max-w-6xl p-6">
         {error && (
-          <div className="bg-red-500/20 border border-red-500 p-4 rounded-lg mb-4">
+          <div className="mb-4 rounded-lg border border-red-500 bg-red-500/20 p-4">
             <p className="text-red-400">{error}</p>
           </div>
         )}
 
         {posts.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-400">No posts yet. Be the first verified human to post!</p>
+          <div className="py-12 text-center">
+            <p className="text-gray-400">
+              No posts yet. Be the first verified human to post!
+            </p>
           </div>
         ) : (
           <div className="space-y-4">
-            {posts.map(post => (
+            {posts.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
           </div>
@@ -123,12 +129,14 @@ export const ForumView: React.FC = () => {
       )}
 
       {showChallenge && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold p-4 border-b border-gray-700">
+        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4">
+          <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-gray-800">
+            <h2 className="border-b border-gray-700 p-4 text-xl font-bold">
               Humanity Verification Required
             </h2>
-            <p className="p-4 text-gray-300">Your verification expired. Complete this challenge to continue.</p>
+            <p className="p-4 text-gray-300">
+              Your verification expired. Complete this challenge to continue.
+            </p>
             <HumanVerificationView
               mode="refresh"
               onComplete={handleChallengeComplete}
