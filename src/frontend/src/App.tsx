@@ -11,14 +11,14 @@ function App() {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="border-b border-gray-700/50 bg-gray-900/95 backdrop-blur-sm p-4 sticky top-0 z-40">
+      <nav className="sticky top-0 z-40 border-b border-gray-700/50 bg-gray-900/95 p-4 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src={lipLogo} alt="LIP Logo" className="w-8 h-8 rounded-lg" />
-            <h1 className="text-xl font-bold bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <img src={lipLogo} alt="LIP Logo" className="h-8 w-8 rounded-lg" />
+            <h1 className="bg-gradient-to-r from-purple-500 via-blue-400 to-cyan-400 bg-clip-text text-xl font-bold text-transparent">
               Living Internet Protocol
             </h1>
-            <div className="hidden sm:block rounded-full bg-gradient-to-r from-blue-900/40 to-cyan-900/40 border border-cyan-500/30 px-3 py-1 text-xs text-white font-semibold">
+            <div className="hidden rounded-full border border-cyan-500/30 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 px-3 py-1 text-xs font-semibold text-white sm:block">
               MVP Demo
             </div>
           </div>

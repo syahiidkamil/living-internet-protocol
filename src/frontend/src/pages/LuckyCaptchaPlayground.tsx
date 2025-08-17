@@ -15,11 +15,11 @@ export const LuckyCaptchaPlayground: React.FC = () => {
   });
   const [attemptsByVariant, setAttemptsByVariant] = useState({
     "arc-agi": 0,
-    "recaptcha": 0,
-    "custom": 0,
-    "friendly": 0,
-    "turnstile": 0,
-    "hcaptcha": 0,
+    recaptcha: 0,
+    custom: 0,
+    friendly: 0,
+    turnstile: 0,
+    hcaptcha: 0,
   });
 
   const captchaVariants = [
@@ -82,7 +82,7 @@ export const LuckyCaptchaPlayground: React.FC = () => {
     setStats(newStats);
 
     // Update attempts by variant
-    setAttemptsByVariant(prev => ({
+    setAttemptsByVariant((prev) => ({
       ...prev,
       [variantId]: prev[variantId as keyof typeof prev] + 1,
     }));
@@ -98,49 +98,91 @@ export const LuckyCaptchaPlayground: React.FC = () => {
       {/* Header */}
       <div className="border-b border-gray-700 bg-gray-800/50 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-6 py-8">
-          <div className="grid gap-8 lg:grid-cols-5 items-start">
-            <div className="lg:col-span-3 text-center lg:text-left">
-              <h1 className="mb-6 bg-gradient-to-r from-purple-500 via-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-4xl lg:text-5xl font-bold text-transparent leading-tight">
+          <div className="grid items-start gap-8 lg:grid-cols-5">
+            <div className="text-center lg:col-span-3 lg:text-left">
+              <h1 className="mb-6 bg-gradient-to-r from-purple-500 via-blue-400 via-cyan-400 to-teal-300 bg-clip-text text-4xl leading-tight font-bold text-transparent lg:text-5xl">
                 🎰 Lucky Captcha Playground
               </h1>
-              <p className="text-lg lg:text-xl text-gray-300 leading-relaxed max-w-3xl">
-                Experience the future of web verification. Try different captcha variants and see how Lucky Captcha 
-                turns boring verification into exciting lottery tickets!
+              <p className="max-w-3xl text-lg leading-relaxed text-gray-300 lg:text-xl">
+                Experience the future of web verification. Try different captcha
+                variants and see how Lucky Captcha turns boring verification
+                into exciting lottery tickets!
               </p>
             </div>
-            
+
             {/* Proof of Humanity Tracker */}
-            <div className="lg:col-span-2 rounded-xl bg-gradient-to-br from-blue-900/20 to-cyan-900/20 p-6 backdrop-blur-sm border border-cyan-500/30">
-              <h3 className="mb-4 text-lg font-semibold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <div className="rounded-xl border border-cyan-500/30 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 p-6 backdrop-blur-sm lg:col-span-2">
+              <h3 className="mb-4 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-lg font-semibold text-transparent">
                 🛡️ Proof of Humanity Tracker
               </h3>
               <div className="space-y-3">
                 {/* Total Attempts Accordion */}
-                <div className="border border-gray-600/30 rounded-lg">
+                <div className="rounded-lg border border-gray-600/30">
                   <button
-                    onClick={() => setShowAttemptsAccordion(!showAttemptsAccordion)}
-                    className="w-full flex items-center justify-between p-3 hover:bg-gray-700/20 transition-colors rounded-lg"
+                    onClick={() =>
+                      setShowAttemptsAccordion(!showAttemptsAccordion)
+                    }
+                    className="flex w-full items-center justify-between rounded-lg p-3 transition-colors hover:bg-gray-700/20"
                   >
-                    <div className="text-sm text-gray-300 font-medium">Total Attempts</div>
+                    <div className="text-sm font-medium text-gray-300">
+                      Total Attempts
+                    </div>
                     <div className="flex items-center gap-2">
-                      <div className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">{stats.totalAttempts}</div>
-                      <div className={`transform transition-transform ${showAttemptsAccordion ? 'rotate-180' : ''}`}>
-                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <div className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-xl font-bold text-transparent">
+                        {stats.totalAttempts}
+                      </div>
+                      <div
+                        className={`transform transition-transform ${showAttemptsAccordion ? "rotate-180" : ""}`}
+                      >
+                        <svg
+                          className="h-4 w-4 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </div>
                     </div>
                   </button>
-                  
+
                   {showAttemptsAccordion && (
-                    <div className="px-3 pb-3 space-y-2 border-t border-gray-600/30 pt-3">
+                    <div className="space-y-2 border-t border-gray-600/30 px-3 pt-3 pb-3">
                       {captchaVariants.map((variant) => (
-                        <div key={variant.id} className="flex items-center justify-between text-xs">
+                        <div
+                          key={variant.id}
+                          className="flex items-center justify-between text-xs"
+                        >
                           <div className="flex items-center gap-2">
-                            <div className="text-sm">{variant.name === "ARC-AGI Challenge" ? "🧩" : variant.name === "reCAPTCHA v3" ? "🚦" : variant.name === "Nike Brand Challenge" ? "👟" : variant.name === "FriendlyCaptcha" ? "🔒" : variant.name === "Cloudflare Turnstile" ? "⚡" : "🖼️"}</div>
-                            <span className="text-gray-300">{variant.name}</span>
+                            <div className="text-sm">
+                              {variant.name === "ARC-AGI Challenge"
+                                ? "🧩"
+                                : variant.name === "reCAPTCHA v3"
+                                  ? "🚦"
+                                  : variant.name === "Nike Brand Challenge"
+                                    ? "👟"
+                                    : variant.name === "FriendlyCaptcha"
+                                      ? "🔒"
+                                      : variant.name === "Cloudflare Turnstile"
+                                        ? "⚡"
+                                        : "🖼️"}
+                            </div>
+                            <span className="text-gray-300">
+                              {variant.name}
+                            </span>
                           </div>
-                          <span className="text-white font-medium">{attemptsByVariant[variant.id as keyof typeof attemptsByVariant]}</span>
+                          <span className="font-medium text-white">
+                            {
+                              attemptsByVariant[
+                                variant.id as keyof typeof attemptsByVariant
+                              ]
+                            }
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -148,48 +190,78 @@ export const LuckyCaptchaPlayground: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="text-sm text-gray-300 font-medium">ICP Identity</div>
-                  <div className="text-sm font-mono bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">rdmx6-jaaaa-aaaah-qcaiq-cai</div>
+                  <div className="text-sm font-medium text-gray-300">
+                    ICP Identity
+                  </div>
+                  <div className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text font-mono text-sm text-transparent">
+                    rdmx6-jaaaa-aaaah-qcaiq-cai
+                  </div>
                 </div>
 
                 {/* Historical Identity Piece Accordion */}
-                <div className="border border-gray-600/30 rounded-lg">
+                <div className="rounded-lg border border-gray-600/30">
                   <button
-                    onClick={() => setShowIdentityAccordion(!showIdentityAccordion)}
-                    className="w-full flex items-center justify-between p-3 hover:bg-gray-700/20 transition-colors rounded-lg"
+                    onClick={() =>
+                      setShowIdentityAccordion(!showIdentityAccordion)
+                    }
+                    className="flex w-full items-center justify-between rounded-lg p-3 transition-colors hover:bg-gray-700/20"
                   >
-                    <div className="text-sm text-gray-300 font-medium">Historical Identity Piece</div>
+                    <div className="text-sm font-medium text-gray-300">
+                      Historical Identity Piece
+                    </div>
                     <div className="flex items-center gap-2">
-                      <div className="text-sm bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent font-medium">Genesis Human #1337</div>
-                      <div className={`transform transition-transform ${showIdentityAccordion ? 'rotate-180' : ''}`}>
-                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      <div className="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-sm font-medium text-transparent">
+                        Genesis Human #1337
+                      </div>
+                      <div
+                        className={`transform transition-transform ${showIdentityAccordion ? "rotate-180" : ""}`}
+                      >
+                        <svg
+                          className="h-4 w-4 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       </div>
                     </div>
                   </button>
-                  
+
                   {showIdentityAccordion && (
-                    <div className="px-3 pb-3 space-y-3 border-t border-gray-600/30 pt-3">
+                    <div className="space-y-3 border-t border-gray-600/30 px-3 pt-3 pb-3">
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-gray-300">NFT Collection</span>
-                        <span className="text-white font-medium">Genesis Humans</span>
+                        <span className="font-medium text-white">
+                          Genesis Humans
+                        </span>
                       </div>
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-gray-300">Token ID</span>
-                        <span className="text-white font-medium">#1337</span>
+                        <span className="font-medium text-white">#1337</span>
                       </div>
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-gray-300">Mint Date</span>
-                        <span className="text-white font-medium">2024-01-15</span>
+                        <span className="font-medium text-white">
+                          2024-01-15
+                        </span>
                       </div>
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-gray-300">Rarity</span>
-                        <span className="text-cyan-400 font-medium">Legendary</span>
+                        <span className="font-medium text-cyan-400">
+                          Legendary
+                        </span>
                       </div>
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-gray-300">Biography Length</span>
-                        <span className="text-white font-medium">42,357 chars</span>
+                        <span className="font-medium text-white">
+                          42,357 chars
+                        </span>
                       </div>
                     </div>
                   )}
@@ -210,7 +282,9 @@ export const LuckyCaptchaPlayground: React.FC = () => {
                 <CaptchaVariant
                   key={variant.id}
                   variant={variant}
-                  onComplete={(success) => handleCaptchaComplete(variant.id, success)}
+                  onComplete={(success) =>
+                    handleCaptchaComplete(variant.id, success)
+                  }
                   winRate={winRate}
                 />
               ))}
@@ -220,28 +294,30 @@ export const LuckyCaptchaPlayground: React.FC = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Win Rate Allocator */}
-            <WinRateAllocator
-              winRate={winRate}
-              onWinRateChange={setWinRate}
-            />
+            <WinRateAllocator winRate={winRate} onWinRateChange={setWinRate} />
 
             {/* Live Demo Notice */}
-            <div className="rounded-xl bg-gradient-to-r from-blue-900/20 to-teal-900/20 border border-cyan-500/30 p-6">
-              <h3 className="mb-3 text-lg font-semibold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+            <div className="rounded-xl border border-cyan-500/30 bg-gradient-to-r from-blue-900/20 to-teal-900/20 p-6">
+              <h3 className="mb-3 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-lg font-semibold text-transparent">
                 🎯 Live Demo Mode
               </h3>
-              <p className="text-sm text-gray-300 mb-4">
-                This playground runs in demo mode with enhanced win rates for demonstration purposes. 
-                In production, win rates are carefully balanced for sustainability.
+              <p className="mb-4 text-sm text-gray-300">
+                This playground runs in demo mode with enhanced win rates for
+                demonstration purposes. In production, win rates are carefully
+                balanced for sustainability.
               </p>
               <div className="text-xs text-gray-400">
-                Demo win rate: <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent font-bold">100%</span> (vs production: ~{winRate}%)
+                Demo win rate:{" "}
+                <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text font-bold text-transparent">
+                  100%
+                </span>{" "}
+                (vs production: ~{winRate}%)
               </div>
             </div>
 
             {/* How It Works */}
-            <div className="rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-cyan-500/20 p-6 backdrop-blur-sm">
-              <h3 className="mb-4 text-lg font-semibold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+            <div className="rounded-xl border border-cyan-500/20 bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-6 backdrop-blur-sm">
+              <h3 className="mb-4 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-lg font-semibold text-transparent">
                 🎲 How Lucky Captcha Works
               </h3>
               <div className="space-y-3 text-sm text-gray-300">
@@ -265,13 +341,16 @@ export const LuckyCaptchaPlayground: React.FC = () => {
             </div>
 
             {/* Market Opportunity */}
-            <div className="rounded-xl bg-gradient-to-r from-blue-900/20 to-teal-900/20 border border-cyan-500/30 p-6">
-              <h3 className="mb-3 text-lg font-semibold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">
+            <div className="rounded-xl border border-cyan-500/30 bg-gradient-to-r from-blue-900/20 to-teal-900/20 p-6">
+              <h3 className="mb-3 bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-lg font-semibold text-transparent">
                 🚨 Market Opportunity
               </h3>
-              <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent mb-2">$200B</div>
+              <div className="mb-2 bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-2xl font-bold text-transparent">
+                $200B
+              </div>
               <p className="text-sm text-gray-300">
-                Google Ads market waiting to be disrupted by engaging, interactive verification experiences.
+                Google Ads market waiting to be disrupted by engaging,
+                interactive verification experiences.
               </p>
             </div>
           </div>

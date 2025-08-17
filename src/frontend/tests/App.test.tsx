@@ -16,8 +16,6 @@ describe("App", () => {
 
     // After act completes, all state updates from useEffect should be processed
     expect(screen.getByText("Living Internet Protocol")).toBeInTheDocument();
-    expect(
-      screen.getByText("🎰 Lucky Captcha Playground"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("🎰 Lucky Captcha Playground")).toBeInTheDocument();
   });
 });

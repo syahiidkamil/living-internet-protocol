@@ -19,7 +19,7 @@ export const JackpotModal: React.FC<JackpotModalProps> = ({
     const timer1 = setTimeout(() => setAnimationPhase(1), 500);
     const timer2 = setTimeout(() => setAnimationPhase(2), 1500);
     const timer3 = setTimeout(() => setShowConfetti(false), 4000);
-    
+
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
@@ -28,7 +28,14 @@ export const JackpotModal: React.FC<JackpotModalProps> = ({
   }, []);
 
   // Generate confetti particles
-  const confettiColors = ["#3b82f6", "#06b6d4", "#0891b2", "#14b8a6", "#0d9488", "#0e7490"];
+  const confettiColors = [
+    "#3b82f6",
+    "#06b6d4",
+    "#0891b2",
+    "#14b8a6",
+    "#0d9488",
+    "#0e7490",
+  ];
   const confettiParticles = Array.from({ length: 50 }, (_, i) => ({
     id: i,
     color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
@@ -63,11 +70,11 @@ Try it yourself at the Living Internet Protocol demo 🚀
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
       {/* Confetti */}
       {showConfetti && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
           {confettiParticles.map((particle) => (
             <div
               key={particle.id}
-              className="absolute w-3 h-3 opacity-80"
+              className="absolute h-3 w-3 opacity-80"
               style={{
                 backgroundColor: particle.color,
                 left: `${particle.startX}%`,
@@ -81,49 +88,58 @@ Try it yourself at the Living Internet Protocol demo 🚀
       )}
 
       {/* Modal */}
-      <div 
-        className={`relative mx-4 max-w-md w-full transform transition-all duration-1000 ${
+      <div
+        className={`relative mx-4 w-full max-w-md transform transition-all duration-1000 ${
           animationPhase >= 1 ? "scale-100 opacity-100" : "scale-50 opacity-0"
         }`}
       >
         <div className="rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 p-1">
           <div className="rounded-xl bg-gray-900 p-8 text-center">
             {/* Main Animation */}
-            <div className={`mb-6 transform transition-all duration-1000 ${
-              animationPhase >= 1 ? "scale-100 rotate-0" : "scale-0 rotate-180"
-            }`}>
-              <div className="text-6xl mb-4 animate-bounce">🎰</div>
-              <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-400">
+            <div
+              className={`mb-6 transform transition-all duration-1000 ${
+                animationPhase >= 1
+                  ? "scale-100 rotate-0"
+                  : "scale-0 rotate-180"
+              }`}
+            >
+              <div className="mb-4 animate-bounce text-6xl">🎰</div>
+              <div className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-4xl font-bold text-transparent">
                 LUCKY PRIZE!
               </div>
             </div>
 
             {/* Prize Amount */}
-            <div className={`mb-6 transform transition-all duration-1000 delay-500 ${
-              animationPhase >= 2 ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-            }`}>
-              <div className="text-5xl font-bold text-green-400 mb-2">
+            <div
+              className={`mb-6 transform transition-all delay-500 duration-1000 ${
+                animationPhase >= 2
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+            >
+              <div className="mb-2 text-5xl font-bold text-green-400">
                 ${amount.toLocaleString()}
               </div>
-              <div className="text-lg text-gray-300">
-                ICP Tokens Won!
-              </div>
-              <div className="text-sm text-gray-400 mt-1">
-                From {variant}
-              </div>
+              <div className="text-lg text-gray-300">ICP Tokens Won!</div>
+              <div className="mt-1 text-sm text-gray-400">From {variant}</div>
             </div>
 
             {/* Success Message */}
-            <div className={`mb-8 transform transition-all duration-1000 delay-700 ${
-              animationPhase >= 2 ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-            }`}>
-              <div className="rounded-lg bg-green-900/20 border border-green-500/30 p-4 mb-4">
-                <div className="text-green-400 font-semibold mb-2">
+            <div
+              className={`mb-8 transform transition-all delay-700 duration-1000 ${
+                animationPhase >= 2
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+            >
+              <div className="mb-4 rounded-lg border border-green-500/30 bg-green-900/20 p-4">
+                <div className="mb-2 font-semibold text-green-400">
                   🎉 Congratulations! 🎉
                 </div>
                 <div className="text-sm text-gray-300">
-                  You've just experienced the Lucky Captcha Revolution! In production, 
-                  these tokens would be transferred to your ICP wallet.
+                  You've just experienced the Lucky Captcha Revolution! In
+                  production, these tokens would be transferred to your ICP
+                  wallet.
                 </div>
               </div>
 
@@ -133,16 +149,20 @@ Try it yourself at the Living Internet Protocol demo 🚀
             </div>
 
             {/* Action Buttons */}
-            <div className={`space-y-3 transform transition-all duration-1000 delay-1000 ${
-              animationPhase >= 2 ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-            }`}>
+            <div
+              className={`transform space-y-3 transition-all delay-1000 duration-1000 ${
+                animationPhase >= 2
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              }`}
+            >
               <button
                 onClick={handleShare}
-                className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-teal-600 px-6 py-3 font-semibold text-white transition-all hover:from-blue-700 hover:to-teal-700 hover:scale-105 border border-cyan-500/30"
+                className="w-full rounded-lg border border-cyan-500/30 bg-gradient-to-r from-blue-600 to-teal-600 px-6 py-3 font-semibold text-white transition-all hover:scale-105 hover:from-blue-700 hover:to-teal-700"
               >
                 🚀 Share Your Win
               </button>
-              
+
               <button
                 onClick={onClose}
                 className="w-full rounded-lg bg-gray-700 px-6 py-2 text-gray-300 transition-colors hover:bg-gray-600"
@@ -153,7 +173,7 @@ Try it yourself at the Living Internet Protocol demo 🚀
 
             {/* Viral Message */}
             <div className="mt-6 text-xs text-gray-500">
-              Every lucky prize creates viral marketing for the sponsor! 
+              Every lucky prize creates viral marketing for the sponsor!
               <br />
               🔥 10x more engaging than traditional ads
             </div>
