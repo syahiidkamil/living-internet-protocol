@@ -3,11 +3,15 @@ import React from "react";
 interface WinRateAllocatorProps {
   winRate: number;
   onWinRateChange: (rate: number) => void;
+  overrideDemoChance: boolean;
+  onOverrideDemoChanceChange: (override: boolean) => void;
 }
 
 export const WinRateAllocator: React.FC<WinRateAllocatorProps> = ({
   winRate,
   onWinRateChange,
+  overrideDemoChance,
+  onOverrideDemoChanceChange,
 }) => {
   const presetRates = [
     {
@@ -95,6 +99,26 @@ export const WinRateAllocator: React.FC<WinRateAllocatorProps> = ({
           <span>1%</span>
           <span>100%</span>
         </div>
+      </div>
+
+      {/* Override Demo Chance Checkbox */}
+      <div className="mb-6 p-4 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
+        <label className="flex items-center gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={overrideDemoChance}
+            onChange={(e) => onOverrideDemoChanceChange(e.target.checked)}
+            className="w-4 h-4 text-yellow-600 bg-gray-700 border-gray-600 rounded focus:ring-yellow-500 focus:ring-2"
+          />
+          <div className="flex-1">
+            <div className="text-sm font-medium text-yellow-300">
+              Override Demo Chance
+            </div>
+            <div className="text-xs text-gray-400">
+              Demo mode normally has 100% win rate. Check this to use the Win Rate Allocator setting instead.
+            </div>
+          </div>
+        </label>
       </div>
 
       {/* Preset Buttons */}

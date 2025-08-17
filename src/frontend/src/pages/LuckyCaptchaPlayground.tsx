@@ -4,7 +4,8 @@ import { WinRateAllocator } from "../components/captcha/WinRateAllocator";
 import { JackpotModal } from "../components/captcha/JackpotModal";
 
 export const LuckyCaptchaPlayground: React.FC = () => {
-  const [winRate, setWinRate] = useState(1); // Percentage
+  const [winRate, setWinRate] = useState(0.0001); // Percentage - Default to Ultra Rare
+  const [overrideDemoChance, setOverrideDemoChance] = useState(false);
   const [showJackpot, setShowJackpot] = useState(false);
   const [completedVariant, setCompletedVariant] = useState<string>("");
   const [showAttemptsAccordion, setShowAttemptsAccordion] = useState(false);
@@ -297,7 +298,12 @@ export const LuckyCaptchaPlayground: React.FC = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Win Rate Allocator */}
-            <WinRateAllocator winRate={winRate} onWinRateChange={setWinRate} />
+            <WinRateAllocator 
+              winRate={winRate} 
+              onWinRateChange={setWinRate}
+              overrideDemoChance={overrideDemoChance}
+              onOverrideDemoChanceChange={setOverrideDemoChance}
+            />
 
             {/* Live Demo Notice */}
             <div className="rounded-xl border border-cyan-500/30 bg-gradient-to-r from-blue-900/20 to-teal-900/20 p-6">
@@ -312,9 +318,9 @@ export const LuckyCaptchaPlayground: React.FC = () => {
               <div className="text-xs text-gray-400">
                 Demo win rate:{" "}
                 <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text font-bold text-transparent">
-                  100%
+                  {overrideDemoChance ? `${winRate >= 1 ? winRate : winRate * 100}%` : "100%"}
                 </span>{" "}
-                (vs production: ~{winRate}%)
+                {overrideDemoChance ? "(using Win Rate Allocator)" : `(vs production: ~${winRate >= 1 ? winRate : winRate * 100}%)`}
               </div>
             </div>
 
