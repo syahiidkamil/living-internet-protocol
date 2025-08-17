@@ -6,6 +6,7 @@ import { JackpotModal } from "../components/captcha/JackpotModal";
 export const LuckyCaptchaPlayground: React.FC = () => {
   const [winRate, setWinRate] = useState(1); // Percentage
   const [showJackpot, setShowJackpot] = useState(false);
+  const [completedVariant, setCompletedVariant] = useState<string>("");
   const [showAttemptsAccordion, setShowAttemptsAccordion] = useState(false);
   const [showIdentityAccordion, setShowIdentityAccordion] = useState(false);
   const [stats, setStats] = useState({
@@ -89,6 +90,8 @@ export const LuckyCaptchaPlayground: React.FC = () => {
 
     // Demo mode: always show lucky prize for demonstration
     if (success) {
+      const variant = captchaVariants.find(v => v.id === variantId);
+      setCompletedVariant(variant?.name || "Challenge");
       setShowJackpot(true);
     }
   };
@@ -361,7 +364,7 @@ export const LuckyCaptchaPlayground: React.FC = () => {
       {showJackpot && (
         <JackpotModal
           amount={1000}
-          variant="Challenge"
+          variant={completedVariant}
           onClose={() => setShowJackpot(false)}
         />
       )}

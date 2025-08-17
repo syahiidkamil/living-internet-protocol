@@ -117,12 +117,12 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
         <button
           onClick={handleTryChallenge}
           disabled={isCompleting}
-          className={`w-full rounded-lg py-3 font-semibold transition-all ${
+          className={`w-full rounded-lg py-3 font-semibold transition-all duration-300 relative z-10 ${
             isCompleting
               ? "cursor-not-allowed bg-gray-600 text-gray-400"
               : variant.color === "sponsored"
-                ? "bg-gray-700 text-gray-300 hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-violet-600/20 hover:text-white"
-                : "bg-gray-700 text-gray-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-cyan-600/20 hover:text-white"
+                ? "bg-gray-700 text-gray-300 hover:bg-gradient-to-r hover:from-purple-500 hover:via-violet-500 hover:to-pink-500 hover:text-white hover:shadow-xl hover:shadow-purple-500/40 hover:scale-105 hover:border-2 hover:border-purple-400"
+                : "bg-gray-700 text-gray-300 hover:bg-gradient-to-r hover:from-blue-500 hover:via-cyan-500 hover:to-teal-500 hover:text-white hover:shadow-xl hover:shadow-cyan-500/40 hover:scale-105 hover:border-2 hover:border-cyan-400"
           }`}
         >
           {isCompleting ? (
@@ -150,7 +150,7 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
       </div>
 
       {/* Hover Glow Effect */}
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-cyan-500/0 to-teal-500/0 opacity-0 transition-opacity group-hover:opacity-20" />
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-cyan-500/0 to-teal-500/0 opacity-0 transition-opacity group-hover:opacity-20 pointer-events-none" />
     </div>
   );
 };
