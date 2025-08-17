@@ -102,20 +102,21 @@ export const WinRateAllocator: React.FC<WinRateAllocatorProps> = ({
       </div>
 
       {/* Override Demo Chance Checkbox */}
-      <div className="mb-6 p-4 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
-        <label className="flex items-center gap-3 cursor-pointer">
+      <div className="mb-6 rounded-lg border border-yellow-500/30 bg-yellow-900/20 p-4">
+        <label className="flex cursor-pointer items-center gap-3">
           <input
             type="checkbox"
             checked={overrideDemoChance}
             onChange={(e) => onOverrideDemoChanceChange(e.target.checked)}
-            className="w-4 h-4 text-yellow-600 bg-gray-700 border-gray-600 rounded focus:ring-yellow-500 focus:ring-2"
+            className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-yellow-600 focus:ring-2 focus:ring-yellow-500"
           />
           <div className="flex-1">
             <div className="text-sm font-medium text-yellow-300">
               Override Demo Chance
             </div>
             <div className="text-xs text-gray-400">
-              Demo mode normally has 100% win rate. Check this to use the Win Rate Allocator setting instead.
+              Demo mode normally has 100% win rate. Check this to use the Win
+              Rate Allocator setting instead.
             </div>
           </div>
         </label>

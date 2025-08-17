@@ -94,7 +94,7 @@ Try it yourself at the Living Internet Protocol demo 🚀
         }`}
       >
         <div className="rounded-2xl bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 p-1">
-          <div className="rounded-xl bg-gray-900 p-8 text-center">
+          <div className="max-h-[95vh] overflow-y-auto rounded-xl bg-gray-900 p-8 text-center">
             {/* Main Animation */}
             <div
               className={`mb-6 transform transition-all duration-1000 ${

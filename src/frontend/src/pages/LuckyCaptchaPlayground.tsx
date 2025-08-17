@@ -19,6 +19,7 @@ export const LuckyCaptchaPlayground: React.FC = () => {
     "arc-agi": 0,
     recaptcha: 0,
     custom: 0,
+    "draw-triangle": 0,
     friendly: 0,
     turnstile: 0,
     hcaptcha: 0,
@@ -36,7 +37,7 @@ export const LuckyCaptchaPlayground: React.FC = () => {
     {
       id: "recaptcha",
       name: "reCAPTCHA v3",
-      description: "Click all images with traffic lights",
+      description: "Returning a score without user interaction",
       difficulty: "Easy",
       color: "green",
       demo: true,
@@ -47,6 +48,14 @@ export const LuckyCaptchaPlayground: React.FC = () => {
       description: "Design your dream sneaker - Win $1000!",
       difficulty: "Fun",
       color: "sponsored",
+      demo: true,
+    },
+    {
+      id: "draw-triangle",
+      name: "Draw a Triangle",
+      description: "Draw a simple triangle to prove you're human",
+      difficulty: "Easy",
+      color: "pink",
       demo: true,
     },
     {
@@ -91,7 +100,7 @@ export const LuckyCaptchaPlayground: React.FC = () => {
 
     // Demo mode: always show lucky prize for demonstration
     if (success) {
-      const variant = captchaVariants.find(v => v.id === variantId);
+      const variant = captchaVariants.find((v) => v.id === variantId);
       setCompletedVariant(variant?.name || "Challenge");
       setShowJackpot(true);
     }
@@ -168,13 +177,16 @@ export const LuckyCaptchaPlayground: React.FC = () => {
                                 ? "🧩"
                                 : variant.name === "reCAPTCHA v3"
                                   ? "🚦"
-                                  : variant.name === "Nike Brand Challenge"
+                                  : variant.name === "Nikex Brand Challenge"
                                     ? "👟"
-                                    : variant.name === "FriendlyCaptcha"
-                                      ? "🔒"
-                                      : variant.name === "Cloudflare Turnstile"
-                                        ? "⚡"
-                                        : "🖼️"}
+                                    : variant.name === "Draw a Triangle"
+                                      ? "📐"
+                                      : variant.name === "FriendlyCaptcha"
+                                        ? "🔒"
+                                        : variant.name ===
+                                            "Cloudflare Turnstile"
+                                          ? "⚡"
+                                          : "🖼️"}
                             </div>
                             <span className="text-gray-300">
                               {variant.name}
@@ -298,8 +310,8 @@ export const LuckyCaptchaPlayground: React.FC = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Win Rate Allocator */}
-            <WinRateAllocator 
-              winRate={winRate} 
+            <WinRateAllocator
+              winRate={winRate}
               onWinRateChange={setWinRate}
               overrideDemoChance={overrideDemoChance}
               onOverrideDemoChanceChange={setOverrideDemoChance}
@@ -318,9 +330,13 @@ export const LuckyCaptchaPlayground: React.FC = () => {
               <div className="text-xs text-gray-400">
                 Demo win rate:{" "}
                 <span className="bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text font-bold text-transparent">
-                  {overrideDemoChance ? `${winRate >= 1 ? winRate : winRate * 100}%` : "100%"}
+                  {overrideDemoChance
+                    ? `${winRate >= 1 ? winRate : winRate * 100}%`
+                    : "100%"}
                 </span>{" "}
-                {overrideDemoChance ? "(using Win Rate Allocator)" : `(vs production: ~${winRate >= 1 ? winRate : winRate * 100}%)`}
+                {overrideDemoChance
+                  ? "(using Win Rate Allocator)"
+                  : `(vs production: ~${winRate >= 1 ? winRate : winRate * 100}%)`}
               </div>
             </div>
 

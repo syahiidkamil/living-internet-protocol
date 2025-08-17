@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { ARCChallengeModal } from "./ARCChallengeModal";
+import { DrawTriangleModal } from "./DrawTriangleModal";
+import { NikexChallengeModal } from "./NikexChallengeModal";
+import { NikexSuccessModal } from "./NikexSuccessModal";
 
 interface VariantData {
   id: string;
@@ -23,6 +26,13 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
 }) => {
   const [isCompleting, setIsCompleting] = useState(false);
   const [showARCChallenge, setShowARCChallenge] = useState(false);
+  const [showDrawTriangle, setShowDrawTriangle] = useState(false);
+  const [showNikexChallenge, setShowNikexChallenge] = useState(false);
+  const [showNikexSuccess, setShowNikexSuccess] = useState(false);
+  const [nikexDesignData, setNikexDesignData] = useState<{
+    image?: string | null;
+    hasDesign?: boolean;
+  }>({});
 
   const difficultyColors = {
     Easy: "text-green-400 bg-green-900/20",
@@ -38,13 +48,25 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
       return;
     }
 
+    // For Draw Triangle challenge, open the drawing modal
+    if (variant.id === "draw-triangle") {
+      setShowDrawTriangle(true);
+      return;
+    }
+
+    // For Nikex Brand Challenge, open the design modal
+    if (variant.id === "custom") {
+      setShowNikexChallenge(true);
+      return;
+    }
+
     // For other challenges, simulate completion
     setIsCompleting(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    
+
     // Demo mode: always win for demonstration
     const success = true; // In production: Math.random() * 100 < winRate
-    
+
     setIsCompleting(false);
     onComplete(success);
   };
@@ -56,6 +78,33 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
 
   const handleARCClose = () => {
     setShowARCChallenge(false);
+  };
+
+  const handleDrawTriangleSuccess = () => {
+    setShowDrawTriangle(false);
+    onComplete(true);
+  };
+
+  const handleDrawTriangleClose = () => {
+    setShowDrawTriangle(false);
+  };
+
+  const handleNikexSuccess = (
+    designImage?: string | null,
+    hasDesign?: boolean,
+  ) => {
+    setShowNikexChallenge(false);
+    setNikexDesignData({ image: designImage, hasDesign });
+    setShowNikexSuccess(true);
+  };
+
+  const handleNikexClose = () => {
+    setShowNikexChallenge(false);
+  };
+
+  const handleNikexSuccessClose = () => {
+    setShowNikexSuccess(false);
+    // Don't call onComplete(true) - Nikex has its own success flow
   };
 
   const getVariantIcon = (id: string) => {
@@ -72,6 +121,8 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
         return "⚡";
       case "custom":
         return "👟";
+      case "draw-triangle":
+        return "📐";
       default:
         return "🎯";
     }
@@ -133,12 +184,12 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
         <button
           onClick={handleTryChallenge}
           disabled={isCompleting}
-          className={`w-full rounded-lg py-3 font-semibold transition-all duration-300 relative z-10 ${
+          className={`relative z-10 w-full rounded-lg py-3 font-semibold transition-all duration-300 ${
             isCompleting
               ? "cursor-not-allowed bg-gray-600 text-gray-400"
               : variant.color === "sponsored"
-                ? "bg-gray-700 text-gray-300 hover:bg-gradient-to-r hover:from-purple-500 hover:via-violet-500 hover:to-pink-500 hover:text-white hover:shadow-xl hover:shadow-purple-500/40 hover:scale-105 hover:border-2 hover:border-purple-400"
-                : "bg-gray-700 text-gray-300 hover:bg-gradient-to-r hover:from-blue-500 hover:via-cyan-500 hover:to-teal-500 hover:text-white hover:shadow-xl hover:shadow-cyan-500/40 hover:scale-105 hover:border-2 hover:border-cyan-400"
+                ? "bg-gray-700 text-gray-300 hover:scale-105 hover:border-2 hover:border-purple-400 hover:bg-gradient-to-r hover:from-purple-500 hover:via-violet-500 hover:to-pink-500 hover:text-white hover:shadow-xl hover:shadow-purple-500/40"
+                : "bg-gray-700 text-gray-300 hover:scale-105 hover:border-2 hover:border-cyan-400 hover:bg-gradient-to-r hover:from-blue-500 hover:via-cyan-500 hover:to-teal-500 hover:text-white hover:shadow-xl hover:shadow-cyan-500/40"
           }`}
         >
           {isCompleting ? (
@@ -166,14 +217,37 @@ export const CaptchaVariant: React.FC<CaptchaVariantProps> = ({
       </div>
 
       {/* Hover Glow Effect */}
-      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-cyan-500/0 to-teal-500/0 opacity-0 transition-opacity group-hover:opacity-20 pointer-events-none" />
-      
+      <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-blue-500/0 via-cyan-500/0 to-teal-500/0 opacity-0 transition-opacity group-hover:opacity-20" />
+
       {/* ARC Challenge Modal */}
       <ARCChallengeModal
         isOpen={showARCChallenge}
         onSuccess={handleARCSuccess}
         onClose={handleARCClose}
       />
+
+      {/* Draw Triangle Modal */}
+      <DrawTriangleModal
+        isOpen={showDrawTriangle}
+        onSuccess={handleDrawTriangleSuccess}
+        onClose={handleDrawTriangleClose}
+      />
+
+      {/* Nikex Challenge Modal */}
+      <NikexChallengeModal
+        isOpen={showNikexChallenge}
+        onSuccess={handleNikexSuccess}
+        onClose={handleNikexClose}
+      />
+
+      {/* Nikex Success Modal */}
+      {showNikexSuccess && (
+        <NikexSuccessModal
+          onClose={handleNikexSuccessClose}
+          designImage={nikexDesignData.image}
+          hasDesign={nikexDesignData.hasDesign || false}
+        />
+      )}
     </div>
   );
 };
