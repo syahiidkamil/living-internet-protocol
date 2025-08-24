@@ -121,6 +121,20 @@ export const LuckyCaptchaPlayground: React.FC = () => {
                 variants and see how Lucky Captcha turns boring verification
                 into exciting lottery tickets!
               </p>
+              <div className="mt-6 flex items-center justify-center gap-2 lg:justify-start">
+                <span className="text-gray-400">Fairness guaranteed by</span>
+                <a
+                  href="https://internetcomputer.org/docs/building-apps/network-features/randomness"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 rounded-full border border-blue-500/30 bg-blue-900/20 px-3 py-1 text-sm font-medium text-blue-400 hover:bg-blue-900/30 hover:text-blue-300 transition-all"
+                >
+                  🎲 IC Verifiable Random Function
+                  <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
             </div>
 
             {/* Proof of Humanity Tracker */}
