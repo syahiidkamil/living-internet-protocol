@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { LuckyCaptchaPlayground } from "./pages/LuckyCaptchaPlayground";
 import { SimpleForum } from "./pages/SimpleForum";
+import { CaptchaMarketplace } from "./pages/CaptchaMarketplace";
 import lipLogo from "../assets/living_internet_protocol.webp";
 
-type ViewType = "playground" | "forum";
+type ViewType = "playground" | "forum" | "marketplace";
 
 function App() {
   const [view, setView] = useState<ViewType>("playground");
@@ -43,6 +44,24 @@ function App() {
             >
               🏛️ Forum
             </button>
+            <button
+              onClick={() => setView("marketplace")}
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+                view === "marketplace"
+                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-cyan-500/25"
+                  : "bg-gray-700/50 text-gray-300 hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-cyan-600/20 hover:text-white"
+              }`}
+            >
+              🛒 Marketplace
+            </button>
+            <a
+              href="https://www.livinginternetprotocol.xyz/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg bg-gray-700/50 px-4 py-2 text-sm font-medium text-gray-300 transition-all hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-cyan-600/20 hover:text-white"
+            >
+              🌐 Landing Page
+            </a>
           </div>
         </div>
       </nav>
@@ -50,6 +69,7 @@ function App() {
       {/* Main Content */}
       {view === "playground" && <LuckyCaptchaPlayground />}
       {view === "forum" && <SimpleForum />}
+      {view === "marketplace" && <CaptchaMarketplace />}
     </div>
   );
 }

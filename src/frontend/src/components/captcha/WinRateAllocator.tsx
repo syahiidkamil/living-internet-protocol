@@ -15,34 +15,34 @@ export const WinRateAllocator: React.FC<WinRateAllocatorProps> = ({
 }) => {
   const presetRates = [
     {
-      rate: 0.0001,
-      label: "Ultra Rare",
+      rate: 0.001,
+      label: "Premium Exclusive",
       color: "text-red-400",
-      desc: "Maximum suspense",
+      desc: "Ultra-high value prizes",
+    },
+    {
+      rate: 0.01,
+      label: "High-Value Campaign",
+      color: "text-orange-400",
+      desc: "Competitive with Meta Ads",
     },
     {
       rate: 0.1,
-      label: "Rare",
-      color: "text-orange-400",
-      desc: "High excitement",
+      label: "Standard Campaign",
+      color: "text-yellow-400",
+      desc: "Competitive with Google Ads",
     },
     {
       rate: 1,
-      label: "Standard",
-      color: "text-yellow-400",
-      desc: "Balanced engagement",
-    },
-    {
-      rate: 50,
-      label: "Demo Common",
+      label: "High-Reach Campaign",
       color: "text-green-400",
-      desc: "Demo testing",
+      desc: "Competitive with TikTok Ads",
     },
     {
       rate: 100,
-      label: "Demo",
+      label: "Demo Mode",
       color: "text-blue-400",
-      desc: "Always win demo",
+      desc: "Always win for testing",
     },
   ];
 
@@ -55,10 +55,16 @@ export const WinRateAllocator: React.FC<WinRateAllocatorProps> = ({
   };
 
   const getPsychologyNote = (rate: number) => {
-    if (rate <= 0.1) return "Variable ratio reinforcement - most addictive";
-    if (rate <= 1) return "Intermittent reinforcement - high engagement";
-    if (rate <= 10) return "Regular rewards - steady participation";
-    if (rate <= 50) return "Frequent rewards - casual engagement";
+    if (rate <= 0.001)
+      return "Ultra-exclusive prizes - maximum viral potential & brand prestige";
+    if (rate <= 0.01)
+      return "Premium rewards - optimal engagement with high ROI";
+    if (rate <= 0.1)
+      return "Standard gamification - proven engagement without overcommitment";
+    if (rate <= 1)
+      return "High-reach campaigns - maximizes brand impressions per dollar";
+    if (rate <= 50)
+      return "Frequent rewards - casual engagement and brand awareness";
     return "Demo mode - testing purposes";
   };
 
@@ -177,20 +183,27 @@ export const WinRateAllocator: React.FC<WinRateAllocatorProps> = ({
           <div className="rounded bg-gray-700/50 p-3">
             <div className="font-medium text-gray-300">Expected Cost</div>
             <div className="font-semibold text-white">
-              ${(winRate * 10).toFixed(0)} per 1000 attempts
+              ${(winRate * 100).toFixed(2)} per 1000 engagements
             </div>
           </div>
 
           <div className="rounded bg-gray-700/50 p-3">
-            <div className="font-medium text-gray-300">Viral Multiplier</div>
+            <div className="font-medium text-gray-300">vs Traditional Ads</div>
             <div className="font-semibold text-white">
-              {winRate < 10 ? "5x" : winRate < 25 ? "3x" : "1x"} spread
+              {winRate <= 0.01
+                ? "50% cheaper"
+                : winRate <= 0.1
+                  ? "30% cheaper"
+                  : winRate <= 1
+                    ? "20% cheaper"
+                    : "Comparable"}{" "}
+              cost
             </div>
           </div>
         </div>
 
         <div className="text-xs text-gray-300 italic">
-          Lower rates = higher viral potential + more addictive engagement
+          Business-friendly rates: More reach per dollar + guaranteed engagement
         </div>
       </div>
     </div>

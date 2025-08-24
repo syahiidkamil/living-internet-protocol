@@ -19,9 +19,9 @@ export const SimpleForum: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([
     {
       id: "1",
-      title: "Just won $1000 from Nike Lucky Captcha! 🎉",
+      title: "Just won $1000 from Nikex Lucky Captcha! 🎉",
       content:
-        "This is incredible! I was just trying to post a review about sneakers and the captcha challenge was to design a custom Nike shoe. Completed it and BAM - $1000 ICP tokens! This is way better than clicking traffic lights... The future of captchas is here!",
+        "This is incredible! I was just trying to post a review about sneakers and the captcha challenge was to design a custom Nikex shoe. Completed it and BAM - $1000 ICP tokens! This is way better than clicking traffic lights... The future of captchas is here!",
       author: "CaptchaWinner23",
       timestamp: "2 hours ago",
       upvotes: 47,

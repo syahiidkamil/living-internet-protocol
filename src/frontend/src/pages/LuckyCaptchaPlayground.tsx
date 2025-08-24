@@ -4,7 +4,7 @@ import { WinRateAllocator } from "../components/captcha/WinRateAllocator";
 import { JackpotModal } from "../components/captcha/JackpotModal";
 
 export const LuckyCaptchaPlayground: React.FC = () => {
-  const [winRate, setWinRate] = useState(0.0001); // Percentage - Default to Ultra Rare
+  const [winRate, setWinRate] = useState(0.001); // Percentage - Default to Premium Exclusive (ultra-high value prizes)
   const [overrideDemoChance, setOverrideDemoChance] = useState(false);
   const [showJackpot, setShowJackpot] = useState(false);
   const [completedVariant, setCompletedVariant] = useState<string>("");
