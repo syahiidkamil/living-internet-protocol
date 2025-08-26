@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   ARCGrid,
   Grid2x2,
-  CellColor,
   cycleColor,
   createEmptyGrid,
   gridsEqual,
@@ -190,7 +189,7 @@ export const ARCChallenge: React.FC<ARCChallengeProps> = ({
       )}
 
       {/* Debug info (only in development) */}
-      {process.env.NODE_ENV === "development" && (
+      {import.meta.env.DEV && (
         <details className="text-xs text-gray-500">
           <summary>Debug Info</summary>
           <div className="mt-2">

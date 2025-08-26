@@ -175,15 +175,15 @@ const mockBackend = {
       challenge_type: "rotation",
     },
   }),
-  verify_arc_answer: async (challengeId: string, userGrid: any) => {
+  verify_arc_answer: async (_challengeId: string, _userGrid: any) => {
     // In a real implementation, this would validate against the stored solution
     // For now, we'll simulate validation
     return { Ok: Math.random() > 0.3 }; // 70% success rate for testing
   },
-  verify_answer: async (id: string, answer: number) => ({ Ok: answer === 0 }),
+  verify_answer: async (_id: string, answer: number) => ({ Ok: answer === 0 }),
   mint_proof: async () => ({ Ok: "NFT minted successfully" }),
   check_humanity_status: async () => ({ Err: "No token found" }),
-  create_post: async (title: string, content: string) => {
+  create_post: async (_title: string, _content: string) => {
     if (!localStorage.getItem("humanityToken")) {
       return { Err: "CHALLENGE_REQUIRED" };
     }

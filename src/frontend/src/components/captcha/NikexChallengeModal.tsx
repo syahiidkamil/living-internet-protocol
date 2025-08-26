@@ -22,7 +22,7 @@ export const NikexChallengeModal: React.FC<NikexChallengeModalProps> = ({
     [],
   );
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [_imageFile, setImageFile] = useState<File | null>(null);
 
   // Challenge end date - January 31, 2025
   const challengeEndDate = new Date("2025-01-31T23:59:59");

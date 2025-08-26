@@ -228,7 +228,7 @@ export const NikexSuccessModal: React.FC<NikexSuccessModalProps> = ({
         </button>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes confetti-fall {
           0% {
             transform: translateY(-100vh) rotate(0deg);

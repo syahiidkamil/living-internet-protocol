@@ -48,7 +48,6 @@ export const WinRateAllocator: React.FC<WinRateAllocatorProps> = ({
 
   const calculateROI = (rate: number) => {
     // Simplified ROI calculation for demo
-    const avgPrize = 1000;
     const engagementMultiplier = Math.max(1, (100 - rate) / 10);
     const viralSpread = rate < 10 ? 5 : rate < 25 ? 3 : 1;
     return Math.round(engagementMultiplier * viralSpread * 100);
