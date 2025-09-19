@@ -1,13 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LuckyCaptchaPlayground } from "./pages/LuckyCaptchaPlayground";
 import { SimpleForum } from "./pages/SimpleForum";
 import { CaptchaMarketplace } from "./pages/CaptchaMarketplace";
+import { SocialMediaDemo } from "./pages/SocialMediaDemo";
+import { MerchantDashboard } from "./pages/MerchantDashboard";
+import { CaptchaWidget } from "./pages/CaptchaWidget";
 import lipLogo from "../assets/living_internet_protocol.webp";
 
-type ViewType = "playground" | "forum" | "marketplace";
+type ViewType = "playground" | "forum" | "marketplace" | "demo" | "dashboard";
 
 function App() {
-  const [view, setView] = useState<ViewType>("playground");
+  const [view, setView] = useState<ViewType>("demo");
+
+  // Check if this is the captcha widget route using query params
+  const isWidgetMode = window.location.search.includes('widget=true');
+
+  // If this is the widget route, render only the widget
+  if (isWidgetMode) {
+    return <CaptchaWidget />;
+  }
 
   return (
     <div className="min-h-screen">
@@ -24,6 +35,27 @@ function App() {
             </div>
           </div>
           <div className="flex gap-2">
+            <button
+              onClick={() => setView("demo")}
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+                view === "demo"
+                  ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/25"
+                  : "bg-gray-700/50 text-gray-300 hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20 hover:text-white"
+              }`}
+            >
+              📱 Social Demo
+            </button>
+            <button
+              onClick={() => setView("dashboard")}
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+                view === "dashboard"
+                  ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/25"
+                  : "bg-gray-700/50 text-gray-300 hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20 hover:text-white"
+              }`}
+            >
+              📊 Dashboard
+            </button>
+            <div className="h-8 w-px bg-gray-700" />
             <button
               onClick={() => setView("playground")}
               className={`rounded-lg px-4 py-2 text-sm font-medium transition-all ${
@@ -54,19 +86,13 @@ function App() {
             >
               🛒 Marketplace
             </button>
-            <a
-              href="https://www.livinginternetprotocol.xyz/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg bg-gray-700/50 px-4 py-2 text-sm font-medium text-gray-300 transition-all hover:bg-gradient-to-r hover:from-blue-600/20 hover:to-cyan-600/20 hover:text-white"
-            >
-              🌐 Landing Page
-            </a>
           </div>
         </div>
       </nav>
 
       {/* Main Content */}
+      {view === "demo" && <SocialMediaDemo />}
+      {view === "dashboard" && <MerchantDashboard />}
       {view === "playground" && <LuckyCaptchaPlayground />}
       {view === "forum" && <SimpleForum />}
       {view === "marketplace" && <CaptchaMarketplace />}
